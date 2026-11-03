@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#111b3d"><title>KIDZ SMART RACE 14.0 — Weather & Dynamic Camera</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,Arial;background:radial-gradient(circle at 15% 5%,#628bdc,#202d63 48%,#0b122c);color:#fff}button,input,select{font:inherit}button{border:0;border-radius:14px;padding:12px 16px;font-weight:850;background:linear-gradient(#fff,#dce8ff);color:#172344;box-shadow:0 5px #9aafd5;cursor:pointer}button:active{transform:translateY(3px);box-shadow:0 2px #9aafd5}button.gold{background:linear-gradient(#fff0a5,#ffc33d);box-shadow:0 5px #bd791c}button.green{background:linear-gradient(#b6ffe4,#4bd6aa);box-shadow:0 5px #168d70}button.dark{background:#263966;color:white;box-shadow:0 5px #101a38}button:disabled{opacity:.5}header{max-width:1100px;margin:auto;padding:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}.brand{font-weight:1000;font-size:clamp(17px,3vw,26px);text-shadow:0 3px #263c7a}.brand small{display:block;font-size:10px;letter-spacing:2px;color:#cbdcff}main{max-width:1100px;margin:auto;padding:10px 14px 40px}.screen{display:none}.screen.on{display:block}.hero{text-align:center;padding:30px 5px}.hero .art{font-size:60px;filter:drop-shadow(0 7px 4px #0005)}h1{font-size:clamp(38px,8vw,76px);line-height:.95;margin:10px;text-shadow:0 6px #263c7a}.hero p{color:#dbe7ff}.panel{background:#fff;color:#192648;border:3px solid white;border-radius:24px;padding:clamp(14px,3vw,25px);box-shadow:0 12px 0 #070d2666,0 20px 40px #0004}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}.menu{min-height:120px;text-align:left;display:flex;align-items:center;gap:12px}.menu i{font-style:normal;font-size:36px}.menu b{display:block}.muted{color:#68748f;font-size:13px}.pill{display:inline-block;background:#eaf1ff;color:#3d5689;padding:5px 10px;border-radius:30px;font-size:12px;font-weight:900}.field{display:grid;gap:5px;margin:10px 0}.field label{font-size:11px;font-weight:900;color:#53617e}.field input,.field select{width:100%;padding:10px;border:2px solid #dce5f3;border-radius:11px;background:#fff;color:#172344}.player{padding:12px;border:2px solid #e1e8f3;border-radius:16px}.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.between{justify-content:space-between}.track{padding:12px;border:4px solid white;border-radius:20px;background:linear-gradient(#8bdcff 0 35%,#83cf72 35% 53%,#886b50 53%);color:#172344}.lanes{display:grid;gap:8px;margin-top:10px}.lane{height:60px;border:3px solid white;border-radius:13px;position:relative;overflow:hidden;background:repeating-linear-gradient(90deg,#d8d8d8 0 34px,#fff 34px 68px);box-shadow:0 4px #59764c}.lane:after{content:"";position:absolute;top:50%;left:0;right:0;border-top:2px dashed #778}.runner{position:absolute;left:0;top:0;height:54px;width:54px;display:grid;place-items:center;font-size:36px;z-index:2;transition:left .6s}.lane label{position:absolute;z-index:3;top:2px;left:5px;background:#ffffffd9;border-radius:6px;padding:2px 5px;font-size:10px;font-weight:900}.stat{flex:1;min-width:75px;text-align:center;background:#edf3ff;border-radius:13px;padding:8px}.stat strong{display:block;font-size:21px}.progress{height:11px;background:#dfe7f5;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;background:linear-gradient(90deg,#45d7a8,#4b8cff);width:0}.question{font-size:clamp(20px,3vw,28px);font-weight:1000;margin:14px 0}.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}.answer{min-height:52px;white-space:normal}.good{background:#9affd8}.bad{background:#ffc1dc}.card{background:#f4f7ff;border:2px solid #dce6f5;border-radius:16px;padding:13px;color:#172344}.card.selected{border-color:#4789ff;background:#e7f0ff}.bigemoji{font-size:40px}.badge{padding:13px;background:#eff4ff;border:2px solid #dce6f5;border-radius:15px}.locked{opacity:.35;filter:grayscale(1)}footer{text-align:center;color:#c5d5f5;font-size:11px;padding:20px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#101a3a;color:white;padding:12px 18px;border-radius:30px;display:none;z-index:9}@media(max-width:560px){.menu{display:block;padding:12px;min-height:110px}.menu i{display:block;font-size:28px}.menu b{font-size:14px}.answers{grid-template-columns:1fr}.lane{height:55px}.runner{height:49px;width:49px;font-size:32px}}
+
+/* KIDZ SMART RACE 4.0 — high-quality CSS 3D cartoon upgrade */
+:root{--sky:#7bd9ff;--grass:#53bf69;--road:#3e465d;--gold:#ffd45a;--ink:#172344}
+body{background:radial-gradient(ellipse at 50% -10%,#a6edff 0,#548de2 35%,#263c83 72%,#101936 100%);background-attachment:fixed}
+header{position:relative;z-index:5}.brand{letter-spacing:.3px;text-shadow:0 2px 0 #1b3470,0 5px 12px #08122c99}
+.brand small{color:#e0f5ff}
+.hero{position:relative;isolation:isolate;overflow:hidden;border-radius:28px;margin:5px 0 18px;background:linear-gradient(180deg,#8be5ff 0%,#c6f5ff 47%,#7bd77d 48%,#35a85c 100%);box-shadow:inset 0 -10px 0 #21834d,0 15px 30px #06133266;border:3px solid #ffffffa8}
+.hero:before{content:"☁️　　　　　☁️";position:absolute;top:16px;left:0;right:0;font-size:35px;letter-spacing:30px;white-space:nowrap;opacity:.85;animation:cloudDrift 18s linear infinite;z-index:-1}
+.hero:after{content:"🌲　🌳　🌴　🌳　🌲";position:absolute;bottom:0;left:0;right:0;font-size:clamp(24px,5vw,44px);white-space:nowrap;opacity:.7;z-index:-1}
+.hero .art{font-size:clamp(64px,10vw,100px);filter:drop-shadow(0 12px 5px #15345b66);animation:carBob 2.2s ease-in-out infinite}
+.hero h1{color:#fff;text-shadow:0 4px 0 #3153a4,0 8px 0 #1b3470,0 12px 18px #10245199;letter-spacing:-1.5px}
+.hero p{color:#16416c;font-weight:900;text-shadow:0 1px #fff8}
+.hero .pill{background:#fff;color:#1c4e75;box-shadow:0 4px 0 #4e9c9a}
+.panel{box-shadow:0 8px 0 #101d48aa,0 18px 38px #06122e66,inset 0 1px 0 #fff;border-color:#eaf7ff}
+.menu{position:relative;overflow:hidden;border:2px solid #ffffffa8;box-shadow:0 7px 0 #526c9c,0 12px 18px #101d4566,inset 0 2px 0 #fff;background:linear-gradient(145deg,#fff 0%,#e2efff 100%);transition:transform .18s,filter .18s}
+.menu:after{content:"";position:absolute;width:90px;height:90px;border-radius:50%;right:-35px;bottom:-48px;background:#8ebaff33}
+.menu:hover{transform:translateY(-3px);filter:brightness(1.04)}.menu i{filter:drop-shadow(0 5px 3px #14264a55)}
+button{transition:transform .12s,filter .15s;box-shadow:0 5px 0 #8da4d0,0 8px 12px #14244b33,inset 0 1px 0 #fff}
+button:active{transform:translateY(3px) scale(.99)}
+.track{position:relative;isolation:isolate;overflow:hidden;border:4px solid #f4fdff;background:linear-gradient(180deg,#63c9f5 0%,#b9edff 33%,#74c96c 34%,#3eaa62 57%,#65734b 58%,#46506b 59%,#30394f 100%);box-shadow:inset 0 0 0 2px #ffffff66,0 9px 0 #314c7c,0 15px 24px #101d4566}
+.track:before{content:"";position:absolute;z-index:-1;left:-5%;right:-5%;top:22%;height:45%;background:linear-gradient(160deg,transparent 0 20%,#fff8 20.5% 21%,transparent 21.5%),linear-gradient(20deg,transparent 0 35%,#fff7 35.5% 36%,transparent 36.5%),radial-gradient(ellipse at 20% 100%,#348e56 0 25%,transparent 26%),radial-gradient(ellipse at 78% 100%,#267c4c 0 31%,transparent 32%);opacity:.9}
+.track:after{content:"☁️　　　　　　　　　　　☁️";position:absolute;top:4px;left:8px;right:8px;font-size:21px;letter-spacing:14px;white-space:nowrap;opacity:.85;z-index:-1;animation:cloudDrift 24s linear infinite}
+.track>.row,.track>.lanes{position:relative;z-index:1}.track>.row{color:#fff;text-shadow:0 2px 3px #18325c}
+.lanes{gap:10px;margin-top:16px}
+.lane{height:66px;border:3px solid #f4f8ff;border-radius:15px;position:relative;overflow:hidden;background:repeating-linear-gradient(90deg,#424b62 0 42px,#566078 42px 84px);box-shadow:inset 0 4px 9px #111a35aa,0 5px 0 #294a42,0 8px 12px #10213c55}
+.lane:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 37px,#fff 37px 43px,transparent 43px 84px);opacity:.72;clip-path:inset(46% 0 46% 0)}
+.lane:after{top:50%;border-top:2px dashed #ffffffaa;z-index:0}
+.lane label{top:4px;left:6px;background:#f4f8ffed;color:#263b65;border:1px solid #fff;box-shadow:0 2px 4px #0003}
+.runner{top:8px;height:48px;width:58px;font-size:34px;filter:drop-shadow(0 5px 3px #0008);z-index:2;animation:carBounce .48s ease-in-out infinite alternate}
+.runner:before{content:"";position:absolute;z-index:-1;left:5px;right:3px;bottom:0;height:19px;border-radius:12px 15px 8px 8px;background:linear-gradient(180deg,#ffdf72 0%,#ff9d28 48%,#d94a24 100%);border:2px solid #fff;box-shadow:0 4px 0 #773d32,0 6px 8px #0006;transform:skewX(-12deg)}
+.runner:after{content:"⚫　⚫";position:absolute;z-index:-1;bottom:-7px;left:8px;width:48px;font-size:10px;letter-spacing:7px;filter:drop-shadow(0 1px 0 #fff)}
+.question{color:#18294e;text-shadow:0 1px #fff;font-weight:1000}
+.answer{border:2px solid #d9e8ff;background:linear-gradient(145deg,#fff,#e6f1ff);box-shadow:0 5px 0 #9bb3dd,0 8px 12px #1b315522,inset 0 1px #fff}
+.answer.good{background:linear-gradient(145deg,#caffdf,#62e3ae);border-color:#fff;box-shadow:0 5px 0 #21976c}
+.answer.bad{background:linear-gradient(145deg,#ffe0e9,#ff9fba);box-shadow:0 5px 0 #c35d7a}
+.stat{box-shadow:inset 0 2px #fff,0 4px 0 #c7d6f0;border:1px solid #dbe8ff}
+.progress{height:13px;border:2px solid #fff;box-shadow:0 2px 5px #1a2a4a33}.progress span{background:linear-gradient(90deg,#ffe36a,#ff9f36 45%,#48dfa8 100%);box-shadow:0 0 9px #55e8bd}
+.pill{box-shadow:0 2px 0 #c7d8f2}
+@keyframes carBob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-8px) rotate(2deg)}}
+@keyframes carBounce{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-3px) rotate(2deg)}}
+@keyframes cloudDrift{from{transform:translateX(-20px)}to{transform:translateX(30px)}}
+@media(max-width:560px){.hero{padding:24px 5px}.track{padding:9px}.lane{height:59px}.runner{top:6px;height:45px;width:54px;font-size:31px}.track:after{font-size:17px}.menu{border-radius:17px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
+
+/* VERSION 5.0 — arcade polish, responsive effects and reward feedback */
+:root{--neon:#72f5ff;--pink:#ff83c6}
+.hero{box-shadow:inset 0 -10px 0 #21834d,0 16px 35px #06133288,0 0 28px #8be5ff44}
+.hero .art{animation:heroCruise 2.4s ease-in-out infinite;filter:drop-shadow(0 12px 7px #15345b77)}
+@keyframes heroCruise{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-10px) rotate(2deg)}}
+.race-scene{min-height:230px;perspective:700px;transform-style:preserve-3d}
+.race-scene .lanes{transform:rotateX(5deg);transform-origin:center top}
+.race-scene:before{animation:sceneGlow 5s ease-in-out infinite alternate}
+@keyframes sceneGlow{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(18deg)}}
+.runner{transition:left .72s cubic-bezier(.2,.85,.25,1),filter .2s;will-change:left,transform}
+.runner.boost{filter:drop-shadow(0 0 8px #ffe76a) drop-shadow(0 0 14px #49dcff);animation:turbo .32s ease-in-out 3}
+@keyframes turbo{0%,100%{transform:translateX(0) scale(1)}50%{transform:translateX(8px) scale(1.15)}}
+.runner.bump{animation:bump .35s ease-in-out 2}
+@keyframes bump{0%,100%{transform:translateX(0) rotate(0)}30%{transform:translateX(-8px) rotate(-12deg)}70%{transform:translateX(5px) rotate(10deg)}}
+.race-tools{margin-top:14px;padding-top:10px;border-top:1px solid #dce6f5}
+#boostMeter{background:linear-gradient(90deg,#fff3b5,#ffe17a);color:#714500}
+#feedback{border-radius:14px;padding:8px;transition:background .2s}
+#feedback.fx-good{background:#c9ffe6;box-shadow:0 0 0 2px #63dca7}
+#feedback.fx-bad{background:#ffe0e8;box-shadow:0 0 0 2px #f39ab5}
+.fx-particle{position:fixed;z-index:20;pointer-events:none;font-size:22px;animation:particleFly .9s ease-out forwards}
+@keyframes particleFly{from{opacity:1;transform:translate(0,0) scale(.6)}to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.5) rotate(35deg)}}
+.mission-box{padding:16px;border-radius:18px;background:linear-gradient(135deg,#e7f7ff,#fff3ca);border:2px solid #fff;box-shadow:0 5px 0 #c6d9ed;color:#1b3158;margin:10px 0}
+.mission-progress{height:14px;border-radius:20px;background:#d8e4f2;overflow:hidden;margin:10px 0}.mission-progress span{display:block;height:100%;background:linear-gradient(90deg,#46d7a5,#ffca4b);width:0;transition:width .3s}
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-items:end;margin:16px 0}.podium div{border-radius:14px 14px 8px 8px;padding:12px 5px;background:linear-gradient(#fff3b7,#ffc94d);color:#48320a;font-weight:900;box-shadow:0 5px 0 #bc8730}.podium div:nth-child(2){padding-top:25px;background:linear-gradient(#e8f3ff,#b9d4ff);box-shadow:0 5px 0 #789bc9}.podium div:nth-child(3){padding-top:34px;background:linear-gradient(#ffe0cb,#e9a77e);box-shadow:0 5px 0 #b77953}
+.menu:focus-visible,button:focus-visible{outline:4px solid #ffdc65;outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+/* VERSION 10.0 — Grand Prix dashboard and clearer race readability */
+.race-dashboard{margin:12px 0 8px;padding:12px;border-radius:17px;background:linear-gradient(135deg,#142b50,#203f6d);color:#fff;border:2px solid #8dc9ff;box-shadow:0 5px 0 #0d1d38}
+.dashboard-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:9px;font-size:12px;letter-spacing:.4px}
+.dashboard-head span{font-size:10px;color:#c8e3ff;background:#ffffff18;padding:5px 8px;border-radius:20px}
+.standings-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.standing-row{display:grid;grid-template-columns:25px 27px minmax(0,1fr);align-items:center;gap:6px;padding:7px 8px;border:1px solid #ffffff35;border-radius:11px;background:#ffffff12;min-width:0;position:relative;overflow:hidden}
+.standing-row.active{background:#fff2b8;color:#1d3154;border-color:#ffe27a;box-shadow:inset 0 0 0 1px #fff8}
+.standing-rank{font-size:13px;font-weight:1000;text-align:center}.standing-car{font-size:20px;filter:drop-shadow(0 2px 1px #0005)}
+.standing-info{min-width:0}.standing-name{font-size:11px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.standing-meta{font-size:9px;opacity:.82;margin-top:2px}
+.standing-bar{height:4px;background:#ffffff38;border-radius:9px;margin-top:5px;overflow:hidden}.standing-bar span{display:block;height:100%;background:linear-gradient(90deg,#53e4b4,#ffe36a);border-radius:9px;transition:width .45s}
+.standing-row.active .standing-bar{background:#233b5d33}.standing-row.active .standing-meta{color:#344968}
+@media(max-width:420px){.standings-list{grid-template-columns:1fr}.dashboard-head{font-size:11px}}
+
+/* VERSION 6.0: real-time canvas pseudo-3D racing scene */
+.scene-wrap{position:relative;width:100%;height:clamp(280px,48vw,440px);margin:14px 0 10px;border:5px solid #fff;border-radius:20px;overflow:hidden;background:#7ed7ff;box-shadow:inset 0 0 0 2px #d9f5ff,0 9px 0 #537b58,0 16px 28px #15264b66}
+#raceCanvas{display:block;width:100%;height:100%;}
+.scene-hud{position:absolute;left:10px;right:10px;top:9px;display:flex;justify-content:space-between;pointer-events:none}
+.scene-hud span{font-size:10px;font-weight:1000;letter-spacing:.5px;color:white;background:#10264dcc;padding:6px 9px;border-radius:20px;box-shadow:0 2px 8px #10264d55}
+.lanes{display:none!important}
+.track{background:linear-gradient(#7ed7ff,#b6edff 42%,#8bd16c 42%,#5da54f);}
+.runner.boost{filter:drop-shadow(0 0 12px #ffe34d);}
+@media(max-width:560px){.scene-wrap{height:300px}.scene-hud span{font-size:9px}}
+.scene-caption{text-align:center;color:#dbeaff;font-size:11px;font-weight:800;padding:3px 0 1px}\n.steer-pad{position:absolute;left:12px;bottom:12px;display:flex;gap:8px;z-index:4}.steer-pad button{width:46px;height:42px;border-radius:13px;background:#10264dcc;color:white;border:1px solid #ffffff88;font-size:21px;font-weight:1000;touch-action:none;box-shadow:0 3px 0 #07152b}.steer-pad button:active{transform:translateY(2px);background:#2878c9}.checkpoint-hud{position:absolute;right:12px;bottom:13px;background:#10264dcc;color:#fff;padding:7px 10px;border-radius:12px;font-size:10px;font-weight:1000;z-index:3}
+
+/* VERSION 15.0 — detailed kart body, animated wheels, cockpit and racing aero parts */
+.scene-wrap{isolation:isolate}
+.race-countdown{position:absolute;inset:0;z-index:8;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,#07152bdc,#102d4bd9);color:#fff;text-align:center;backdrop-filter:blur(3px)}
+.race-countdown.show{display:flex;animation:countFade .22s ease-out}
+.countdown-lights{display:flex;gap:9px;padding:9px 16px;border-radius:30px;background:#050b18;border:2px solid #8095b5;box-shadow:0 5px 16px #0008}
+.countdown-lights i{width:19px;height:19px;border-radius:50%;background:#4b5260;box-shadow:inset 0 2px 5px #0008}
+.countdown-lights.lit i{background:#ff344f;box-shadow:0 0 15px #ff244a, inset 0 1px 4px #fff9}
+.race-countdown strong{font-size:clamp(65px,16vw,112px);line-height:1;font-weight:1000;text-shadow:0 5px 0 #14233c,0 0 28px #ffcf4d;animation:numberPop .72s ease-in-out infinite}
+.race-countdown.go strong{font-size:clamp(48px,12vw,80px);color:#8bffca}
+.race-countdown span{font-size:clamp(11px,2.7vw,16px);font-weight:1000;letter-spacing:2px;color:#ffe68c}
+@keyframes numberPop{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
+@keyframes countFade{from{opacity:0}to{opacity:1}}
+.victory-crown{font-size:clamp(56px,13vw,86px);animation:trophyFloat 1s ease-in-out infinite alternate;filter:drop-shadow(0 8px 8px #d49a3970)}
+.victory-ribbon{display:inline-block;margin:4px auto 10px;padding:8px 26px;background:linear-gradient(90deg,#ffb92e,#fff0a1,#ffb92e);color:#543300;font-size:clamp(17px,4vw,25px);font-weight:1000;letter-spacing:3px;border-radius:8px;box-shadow:0 5px 0 #b77920;transform:rotate(-2deg);animation:ribbonIn .6s cubic-bezier(.2,1.5,.4,1)}
+#result .panel{overflow:hidden;background-image:radial-gradient(circle at 10% 5%,#fff4b8 0 3px,transparent 4px),radial-gradient(circle at 90% 8%,#b8efff 0 4px,transparent 5px)}
+@keyframes trophyFloat{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-9px) rotate(4deg)}}
+@keyframes ribbonIn{from{opacity:0;transform:translateY(-24px) rotate(-8deg) scale(.6)}to{opacity:1;transform:rotate(-2deg) scale(1)}}
+@media(prefers-reduced-motion:reduce){.race-countdown strong,.victory-crown,.victory-ribbon{animation:none}}
+</style></head><body>
+<header><div class="brand">🏁 KIDZ SMART RACE<small>11.0 • LIGHTS OUT EDITION</small></div><div class="row"><span class="pill" id="coinTop">🪙 0</span><button class="dark" onclick="show('home')">⌂ Menu</button></div></header>
+<main>
+<section id="home" class="screen on"><div class="hero"><div class="art">🏎️🌈🏆</div><h1>KIDZ SMART<br>RACE 11.0</h1><p>Belajar, bermain dan jadi juara!</p><span class="pill">UMUR 4–9 TAHUN • CARTOON RACING • PSEUDO-3D CAMERA</span></div><div class="grid">
+<button class="menu gold" onclick="show('setup')"><i>🏁</i><span><b>Mula Perlumbaan</b><small>3–4 pemain • 50 jawapan betul</small></span></button>
+<button class="menu green" onclick="practiceStart()"><i>📚</i><span><b>Mod Latihan</b><small>Belajar tanpa tekanan</small></span></button>
+<button class="menu" onclick="show('subjects')"><i>🧠</i><span><b>Pusat Subjek</b><small>Matematik, BM, Islam, IQ</small></span></button>
+<button class="menu" onclick="show('worlds')"><i>🌍</i><span><b>Dunia Perlumbaan</b><small>Pilih trek pengembaraan</small></span></button>
+<button class="menu" onclick="show('garage')"><i>🚘</i><span><b>Garaj Watak</b><small>Pilih maskot pelumba</small></span></button>
+<button class="menu" onclick="show('achievements')"><i>🏅</i><span><b>Pencapaian</b><small>Lencana dan ganjaran</small></span></button>
+<button class="menu" onclick="show('missions')"><i>🎯</i><span><b>Misi Harian</b><small>Cabaran dan ganjaran syiling</small></span></button><button class="menu" onclick="show('records')"><i>📊</i><span><b>Rekod Pemain</b><small>Sejarah permainan</small></span></button>
+<button class="menu" onclick="show('settings')"><i>⚙️</i><span><b>Tetapan</b><small>Bunyi dan panduan</small></span></button>
+</div></section>
+<section id="setup" class="screen"><div class="panel"><h2>🏁 Persediaan Perlumbaan</h2><div class="grid"><div class="field"><label>JUMLAH PEMAIN</label><select id="count" onchange="makePlayers()"><option>3</option><option>4</option></select></div><div class="field"><label>TAHAP UMUR</label><select id="age"><option value="0">4–5 tahun • Mudah</option><option value="1">6–7 tahun • Sederhana</option><option value="2" selected>8–9 tahun • Mencabar</option></select></div><div class="field"><label>MOD</label><select id="mode"><option value="race">Perlumbaan 50 jawapan betul</option><option value="timed">Cabaran masa 3 minit</option></select></div></div><h3>Nama dan watak pemain</h3><div id="playerSetup" class="grid"></div><div class="row between" style="margin-top:16px"><button class="dark" onclick="show('home')">Kembali</button><button class="gold" onclick="raceStart()">MULA BERMAIN 🚀</button></div></div></section>
+<section id="race" class="screen"><div class="panel"><div class="row between"><div><span class="pill" id="worldTag">🌳 Hutan Ceria</span><h2 id="turnTitle">Giliran pemain</h2></div><span class="pill" id="timer">⏱️ 03:00</span></div><div class="track race-scene"><div class="row between"><b>🏁 MULA</b><b>GARIS PENAMAT 🏆</b></div><div class="scene-wrap"><canvas id="raceCanvas" aria-label="Paparan trek perlumbaan kart gaya pseudo-3D"></canvas><div class="scene-hud"><span>🏎️ KAMERA GRAND PRIX 14.1</span><span id="sceneSpeed">⚡ 0 KM/J</span></div><div class="checkpoint-hud" id="checkpointHud">🏁 Checkpoint 1/5</div><div id="raceCountdown" class="race-countdown" aria-live="assertive"><div class="countdown-lights"><i></i><i></i><i></i></div><strong id="countdownNumber">3</strong><span id="countdownCaption">BERSIAP UNTUK BERLUMBA!</span></div></div><div class="lanes" id="lanes"></div></div><div class="scene-caption">🏁 Jawapan betul memajukan kart • Jawapan salah menyebabkan kart ketinggalan • Cuaca dinamik mengikut dunia</div><section class="race-dashboard" aria-label="Kedudukan perlumbaan"><div class="dashboard-head"><b>🏆 KEDUDUKAN GRAND PRIX</b><span id="raceLap">Pusingan 1 • Sasaran 50</span></div><div id="raceStandings" class="standings-list"></div></section><div class="row" style="margin:12px 0"><div class="stat"><strong id="correctStat">0</strong><small>Betul</small></div><div class="stat"><strong id="coinStat">0</strong><small>Syiling</small></div><div class="stat"><strong id="streakStat">0</strong><small>Streak</small></div></div><span class="pill" id="subjectTag">Subjek</span><div class="progress"><span id="progress"></span></div><div class="question" id="question">Soalan akan dipaparkan.</div><div class="answers" id="answers"></div><div id="feedback" class="center" style="min-height:40px;margin-top:12px;font-weight:850"></div><div class="race-tools row between"><span class="pill" id="boostMeter">⚡ Turbo: 0/3</span><button class="dark" onclick="pause()">⏸ Rehat / Sambung</button><button class="dark" onclick="quit()">Keluar</button></div></div></section>
+<section id="subjects" class="screen"><div class="panel"><h2>🧠 Pusat Subjek</h2><p class="muted">Pilih subjek latihan.</p><div class="grid" id="subjectCards"></div><button class="green" style="margin-top:14px" onclick="practiceStart()">Mula latihan</button><button class="dark" onclick="show('home')">Kembali</button></div></section>
+<section id="worlds" class="screen"><div class="panel"><h2>🌍 Dunia Perlumbaan</h2><div class="grid" id="worldCards"></div><button class="dark" onclick="show('home')">Kembali</button></div></section>
+<section id="garage" class="screen"><div class="panel"><h2>🚘 Garaj Watak</h2><div class="grid" id="garageCards"></div><button class="dark" onclick="show('home')">Kembali</button></div></section>
+<section id="achievements" class="screen"><div class="panel"><h2>🏅 Pencapaian</h2><div class="grid" id="badges"></div><button class="dark" onclick="show('home')">Kembali</button></div></section>
+<section id="missions" class="screen"><div class="panel"><h2>🎯 Misi Harian</h2><p class="muted">Selesaikan cabaran hari ini untuk mendapat ganjaran tambahan.</p><div id="missionCard"></div><button class="dark" onclick="show('home')">Kembali</button></div></section>
+<section id="records" class="screen"><div class="panel"><div class="row between"><h2>📊 Rekod Permainan</h2><button onclick="clearRecords()">Padam rekod</button></div><div id="recordRows"></div><button class="dark" onclick="show('home')">Kembali</button></div></section>
+<section id="settings" class="screen"><div class="panel"><h2>⚙️ Tetapan</h2><label><input id="sound" type="checkbox" checked> Bunyi jawapan</label><hr><p>Jawapan betul: kereta bergerak ke hadapan dan pemain mendapat 2 syiling. Kombo 3 jawapan berturut-turut memberi bonus 3 syiling. Jawapan salah: kereta mengundur sedikit. Pemain bergilir menjawab. Pemain pertama mencapai 50 jawapan betul menang.</p><p class="muted">Rekod disimpan pada peranti ini menggunakan storan pelayar.</p><button class="dark" onclick="show('home')">Kembali</button></div></section>
+<section id="result" class="screen"><div class="panel center"><div class="victory-crown">🏆🎉🏁</div><div class="victory-ribbon">CHAMPION!</div><h1 id="winner">TAHNIAH!</h1><p id="resultText"></p><div id="scores"></div><button class="gold" onclick="show('setup')">Main lagi</button> <button class="dark" onclick="show('home')">Menu utama</button></div></section>
+</main><footer>KIDZ SMART RACE 15.0 • Realistic Kart Animation Edition</footer><div class="toast" id="toast"></div>
+<script>
+const $=x=>document.getElementById(x);
+const subjects=[['math','➕ Matematik'],['bm','📖 Bahasa Melayu'],['islam','🕌 Pendidikan Islam'],['iq','🧩 IQ & Logik']];
+const chars=[['🤖','Robo'],['🐱','Kucing Turbo'],['🐻','Beruang Bolt'],['🐰','Arnab Laju'],['🦖','Dino Dash'],['🦊','Rubah Flash'],['🐼','Panda Zoom'],['🐥','Anak Ayam']];
+const worlds=[['forest','🌳','Hutan Ceria'],['city','🏙️','Bandar Gemilang'],['space','🚀','Angkasa Lepas'],['ice','❄️','Dunia Ais']];
+let world='forest',subject='all',players=[],turn=0,deck=[],qi=0,q=null,practice=false,busy=false,tick=null,left=180,paused=false;
+
+// 6.0 pseudo-3D third-person scene engine; quiz/game state remains in the original engine.
+let sceneRAF=0,sceneLast=0,roadPhase=0,sceneW=0,sceneH=0,cameraZoomNow=1;
+let kartAction='cruise',kartActionUntil=0,steerAngle=0,roadCurve=0;
+let countdownTimer=null,countdownToken=0;
+function sceneResize(){const c=$('raceCanvas');if(!c)return;const r=c.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,1.5);sceneW=Math.max(1,r.width);sceneH=Math.max(1,r.height);c.width=Math.round(sceneW*d);c.height=Math.round(sceneH*d);const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0)}
+function poly(ctx,pts,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.closePath();ctx.fill()}
+function rounded(ctx,x,y,w,h,r,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function drawKart(ctx,x,y,scale,color,emoji,active,ts,lean=0){
+ ctx.save();
+ const suspensionWave=Math.sin(ts/62)*.9+Math.sin(ts/37)*.35;
+ const bounce=(active&&kartAction==='jump')?Math.abs(Math.sin(ts/72))*3.8:suspensionWave*(active?1.25:.7);
+ ctx.translate(x,y+bounce);
+ ctx.rotate(lean+(active&&kartAction==='drift'?Math.sin(ts/75)*.045:0));
+ ctx.scale(scale,scale);
+
+ // Ground shadow gives the kart a stronger sense of height and weight.
+ ctx.fillStyle='#06132666';
+ ctx.beginPath();ctx.ellipse(0,25,53,16,0,0,Math.PI*2);ctx.fill();
+ ctx.fillStyle='#ffffff18';
+ ctx.beginPath();ctx.ellipse(0,27,34,7,0,0,Math.PI*2);ctx.fill();
+
+ // Exhaust glow and short animated flames during turbo.
+ if(active&&kartAction==='boost'){
+   const flick=Math.sin(ts/28)*5, pulse=.65+Math.sin(ts/45)*.25;
+   ctx.globalAlpha=pulse;
+   poly(ctx,[[-22,8],[-49-flick,13],[-22,19]],'#ff8b28');
+   poly(ctx,[[-22,10],[-39-flick,14],[-22,17]],'#fff2a1');
+   poly(ctx,[[22,8],[49+flick,13],[22,19]],'#36dfff');
+   poly(ctx,[[22,10],[39+flick,14],[22,17]],'#e6ffff');
+   ctx.globalAlpha=1;
+ }
+
+ // Rear axle and visible suspension arms.
+ ctx.strokeStyle='#aab8c8';ctx.lineWidth=3;
+ ctx.beginPath();ctx.moveTo(-31,8);ctx.lineTo(-23,2);ctx.moveTo(31,8);ctx.lineTo(23,2);ctx.stroke();
+ ctx.strokeStyle='#46566b';ctx.lineWidth=2;
+ ctx.beginPath();ctx.moveTo(-28,-1);ctx.lineTo(-20,13);ctx.moveTo(28,-1);ctx.lineTo(20,13);ctx.stroke();
+
+ // Four rubber racing tyres, tread grooves, metallic rims and hubs.
+ const spin=ts/58;
+ for(const wx of [-31,31])for(const wy of [-5,16]){
+   ctx.save();ctx.translate(wx,wy+(active?suspensionWave*.75:0));ctx.rotate(spin+(wy===-5?steerAngle*1.9:0));
+   rounded(ctx,-9,-13,18,26,5,'#10151d');
+   rounded(ctx,-7,-11,14,22,4,'#303b49');
+   ctx.strokeStyle='#667383';ctx.lineWidth=1.35;
+   for(let t=-8;t<=8;t+=5){
+     ctx.beginPath();ctx.moveTo(-6,t-2);ctx.lineTo(6,t+2);ctx.stroke();
+   }
+   ctx.fillStyle='#b9c8d8';ctx.beginPath();ctx.arc(0,0,6,0,Math.PI*2);ctx.fill();
+   ctx.fillStyle='#52657a';ctx.beginPath();ctx.arc(0,0,3.2,0,Math.PI*2);ctx.fill();
+   ctx.fillStyle='#e5edf5';ctx.fillRect(-1, -5,2,10);
+   ctx.restore();
+ }
+
+ // Rear wing, end plates and carbon-fibre looking chassis.
+ rounded(ctx,-36,-19,72,8,3,'#111c2a');
+ rounded(ctx,-40,-18,7,13,2,'#26374a');
+ rounded(ctx,33,-18,7,13,2,'#26374a');
+ rounded(ctx,-34,-13,68,31,10,'#1c293b');
+ rounded(ctx,-32,-16,64,30,11,color);
+
+ // Side pods with layered highlights and intake vents.
+ poly(ctx,[[-31,-7],[-24,-20],[-15,-16],[-19,8],[-29,10]],'#17263a');
+ poly(ctx,[[31,-7],[24,-20],[15,-16],[19,8],[29,10]],'#17263a');
+ poly(ctx,[[-29,-5],[-24,-15],[-20,-13],[-23,3]],'#ffffff36');
+ poly(ctx,[[29,-5],[24,-15],[20,-13],[23,3]],'#ffffff36');
+ ctx.fillStyle='#0b1727';
+ rounded(ctx,-28,-5,8,9,2,'#0c1726');rounded(ctx,20,-5,8,9,2,'#0c1726');
+ ctx.strokeStyle='#b9d7ed';ctx.lineWidth=1;
+ ctx.beginPath();ctx.moveTo(-26,-1);ctx.lineTo(-22,1);ctx.moveTo(26,-1);ctx.lineTo(22,1);ctx.stroke();
+
+ // Main aerodynamic body, sculpted nose and glossy paint reflections.
+ poly(ctx,[[-29,-14],[-25,-27],[-17,-34],[-9,-39],[9,-39],[17,-34],[25,-27],[29,-14],[25,8],[-25,8]],color);
+ poly(ctx,[[-24,-25],[-16,-33],[-8,-36],[8,-36],[16,-33],[24,-25],[14,-22],[-14,-22]],'#ffffff45');
+ poly(ctx,[[-27,-13],[-20,-20],[-16,-17],[-19,6],[-25,5]],'#ffffff20');
+ poly(ctx,[[27,-13],[20,-20],[16,-17],[19,6],[25,5]],'#00000025');
+ // Racing stripe and front nose cone.
+ poly(ctx,[[-4,-37],[4,-37],[7,5],[-7,5]],'#ffffffa8');
+ poly(ctx,[[-2,-38],[2,-38],[3,3],[-3,3]],'#ffffff66');
+
+ // Front wing: layered aerodynamic flaps and end plates.
+ poly(ctx,[[-35,3],[-25,-1],[-14,1],[0,0],[14,1],[25,-1],[35,3],[32,10],[18,8],[0,9],[-18,8],[-32,10]],'#182638');
+ poly(ctx,[[-36,5],[-22,3],[0,5],[22,3],[36,5],[33,11],[0,10],[-33,11]],'#d5e0eb');
+ poly(ctx,[[-30,6],[-17,6],[0,7],[17,6],[30,6],[25,8],[0,8],[-25,8]],color);
+
+ // Cockpit rim, tinted windscreen and reflected sky streak.
+ rounded(ctx,-20,-33,40,22,10,'#101c2c');
+ rounded(ctx,-16,-32,32,16,7,'#77c9ec');
+ poly(ctx,[[-13,-30],[-5,-30],[-11,-19],[-15,-20]],'#ffffff88');
+ poly(ctx,[[5,-30],[13,-30],[10,-26],[3,-26]],'#dff8ff88');
+ // Driver seat and harness details.
+ rounded(ctx,-10,-23,20,12,5,'#17263a');
+ ctx.strokeStyle='#e9f2fa';ctx.lineWidth=1.5;
+ ctx.beginPath();ctx.moveTo(-7,-22);ctx.lineTo(7,-12);ctx.moveTo(7,-22);ctx.lineTo(-7,-12);ctx.stroke();
+
+ // Character helmet, visor and neck remain recognizable to young players.
+ ctx.fillStyle='#17263a';ctx.beginPath();ctx.ellipse(0,-39,12,12,0,0,Math.PI*2);ctx.fill();
+ ctx.font='23px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+ ctx.fillText(emoji,0,-40);
+ rounded(ctx,-8,-34,16,5,2,'#24364b');
+ ctx.fillStyle='#bdefff';ctx.fillRect(-5,-33,10,2);
+
+ // Headlights, brake lights and tiny side mirrors.
+ rounded(ctx,-27,-11,7,5,2,'#fff2b0');rounded(ctx,20,-11,7,5,2,'#fff2b0');
+ ctx.fillStyle='#ff554f';ctx.fillRect(-26,10,6,3);ctx.fillRect(20,10,6,3);
+ ctx.strokeStyle='#dbe8f3';ctx.lineWidth=2;
+ ctx.beginPath();ctx.moveTo(-19,-25);ctx.lineTo(-24,-31);ctx.moveTo(19,-25);ctx.lineTo(24,-31);ctx.stroke();
+ ctx.fillStyle='#26394d';ctx.beginPath();ctx.arc(-25,-32,3,0,Math.PI*2);ctx.arc(25,-32,3,0,Math.PI*2);ctx.fill();
+
+ // Small racing number plate on the nose.
+ rounded(ctx,-8,-9,16,10,3,'#f4f7fb');
+ ctx.fillStyle='#17263a';ctx.font='bold 8px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+ ctx.fillText(String((Math.round(x+y)%99)+1),0,-4);
+
+ if(active){
+   ctx.strokeStyle='#fff2a0';ctx.lineWidth=2.2;
+   ctx.beginPath();ctx.ellipse(0,-5,46,46,0,0,Math.PI*2);ctx.stroke();
+   ctx.strokeStyle='#ffffff66';ctx.lineWidth=1;
+   ctx.beginPath();ctx.ellipse(0,-5,51,51,0,0,Math.PI*2);ctx.stroke();
+ }
+ ctx.restore();
+}
+function drawScene(ts){
+ const c=$('raceCanvas');if(!c||!$('race').classList.contains('on')){sceneRAF=0;return}
+ if(!sceneW)sceneResize();
+ const ctx=c.getContext('2d'),w=sceneW,h=sceneH;
+ let dt=Math.min(.04,(ts-sceneLast)/1000||0);sceneLast=ts;
+ const moving=!paused;
+ roadPhase=(roadPhase+dt*(kartAction==='boost'?2.5:kartAction==='jump'?1.8:1.05)*(moving?1:0))%1;
+ if(ts>kartActionUntil)kartAction='cruise';
+ roadCurve=Math.sin(ts/2600)*w*.055;
+ steerAngle=Math.sin(ts/1100)*.075+Math.sin(ts/1750)*.035+(kartAction==='drift'?-.30:kartAction==='crash'?.18:0);
+ // World-specific cinematic sky and horizon palette
+ const palettes={forest:['#39a9ed','#d4f4ff','#9bdd75','#75b982','#4b9b69'],city:['#4a78b9','#d8e7ff','#a9b8c8','#7d91a8','#52677f'],space:['#080d35','#25266a','#30205f','#27245c','#151a49'],ice:['#72c9f4','#e7fbff','#c7f2fa','#a9e5ef','#72c4d7']};
+ const pal=palettes[world]||palettes.forest;
+ let sky=ctx.createLinearGradient(0,0,0,h);sky.addColorStop(0,pal[0]);sky.addColorStop(.52,pal[1]);sky.addColorStop(1,pal[2]);ctx.fillStyle=sky;ctx.fillRect(0,0,w,h);
+ if(world==='space'){
+   for(let i=0;i<65;i++){let sx=((i*83.7+ts*.006*(i%3+1))%w),sy=(i*47.3)% (h*.58);ctx.fillStyle=i%4?'#ffffffaa':'#ffe98b';ctx.fillRect(sx,sy,i%5===0?2:1,i%5===0?2:1)}
+   ctx.fillStyle='#d7b6ff';ctx.beginPath();ctx.arc(w*.82,h*.2,Math.min(w,h)*.075,0,Math.PI*2);ctx.fill();ctx.fillStyle='#a28bdb';ctx.beginPath();ctx.arc(w*.79,h*.18,Math.min(w,h)*.07,0,Math.PI*2);ctx.fill();
+ } else {
+   const sun=ctx.createRadialGradient(w*.82,h*.16,2,w*.82,h*.16,Math.min(w,h)*.22);sun.addColorStop(0,world==='ice'?'#ffffffdd':'#fffbd1aa');sun.addColorStop(1,'#fffbd100');ctx.fillStyle=sun;ctx.fillRect(0,0,w,h);
+   ctx.fillStyle=world==='ice'?'#ffffff':'#fff1a8';ctx.beginPath();ctx.arc(w*.82,h*.17,Math.min(w,h)*.055,0,Math.PI*2);ctx.fill();
+ }
+ // Layered skyline / mountains change with selected world
+ if(world==='city'){
+   for(let i=0;i<13;i++){let bw=w*.035+(i%3)*w*.018,bx=i*w/12-bw/2,bh=h*(.12+(i*7%5)*.045);ctx.fillStyle=i%2?'#52677f':'#7187a0';ctx.fillRect(bx,h*.55-bh,bw,bh);ctx.fillStyle='#ffe99a';for(let yy=h*.57-bh;yy<h*.54;yy+=9)for(let xx=bx+5;xx<bx+bw-3;xx+=9)ctx.fillRect(xx,yy,3,4)}
+ } else if(world==='space'){
+   ctx.fillStyle='#8a72c8';ctx.beginPath();ctx.arc(w*.18,h*.48,Math.min(w,h)*.11,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#e9c7ff';ctx.lineWidth=5;ctx.beginPath();ctx.ellipse(w*.18,h*.48,Math.min(w,h)*.16,Math.min(w,h)*.045,-.25,0,Math.PI*2);ctx.stroke();
+ } else {
+   poly(ctx,[[0,h*.5],[w*.1,h*.32],[w*.22,h*.48],[w*.4,h*.27],[w*.57,h*.49],[w*.76,h*.3],[w,h*.49],[w,h*.7],[0,h*.7]],pal[3]);
+   poly(ctx,[[0,h*.55],[w*.2,h*.4],[w*.34,h*.54],[w*.62,h*.38],[w*.8,h*.53],[w,h*.41],[w,h*.7],[0,h*.7]],pal[4]);
+ }
+ // clouds drift
+ for(let i=0;i<4;i++){let cx=((i*.31+ts/18000)%1.3)*w-w*.1,cy=h*(.12+(i%2)*.1);ctx.fillStyle='#ffffffb8';ctx.beginPath();ctx.arc(cx,cy,10,0,Math.PI*2);ctx.arc(cx+12,cy-5,14,0,Math.PI*2);ctx.arc(cx+26,cy,10,0,Math.PI*2);ctx.fill()}
+ // Moving roadside scenery with parallax, themed for each world
+ for(let i=0;i<16;i++){
+   let z=((i/16+roadPhase*.36)%1),y=h*(.34+z*.42),scale=.16+z*.88;
+   let side=i%2?-1:1,x=w*.5+roadCurve*.18+side*(w*(.22+z*.29));
+   if(world==='forest'){
+     ctx.fillStyle='#754a2c';ctx.fillRect(x-3*scale,y,6*scale,20*scale);ctx.fillStyle=i%3?'#238b59':'#43aa62';ctx.beginPath();ctx.arc(x,y,13*scale,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(x-7*scale,y+8*scale,10*scale,0,Math.PI*2);ctx.arc(x+8*scale,y+9*scale,9*scale,0,Math.PI*2);ctx.fill();
+   } else if(world==='city'){
+     ctx.fillStyle='#354c68';ctx.fillRect(x-8*scale,y-28*scale,16*scale,38*scale);ctx.fillStyle='#ffe58a';for(let q=0;q<3;q++)ctx.fillRect(x-5*scale+q*5*scale,y-22*scale,2*scale,3*scale);
+   } else if(world==='ice'){
+     ctx.fillStyle='#efffff';ctx.beginPath();ctx.moveTo(x,y-30*scale);ctx.lineTo(x-11*scale,y+8*scale);ctx.lineTo(x+11*scale,y+8*scale);ctx.closePath();ctx.fill();ctx.fillStyle='#8bd7e8';ctx.fillRect(x-3*scale,y+5*scale,6*scale,13*scale);
+   } else {
+     ctx.fillStyle='#bd9cff';ctx.beginPath();ctx.arc(x,y,9*scale,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#e6d5ff';ctx.lineWidth=2*scale;ctx.beginPath();ctx.ellipse(x,y,17*scale,5*scale,.2,0,Math.PI*2);ctx.stroke();
+   }
+ }
+ // Grandstand crowd and flags in the city circuit
+ if(world==='city'){
+   ctx.fillStyle='#273e5c';ctx.fillRect(0,h*.43,w*.12,h*.16);ctx.fillRect(w*.88,h*.43,w*.12,h*.16);
+   for(let i=0;i<35;i++){let sx=(i%18)*w*.058,sy=h*.45+(i%3)*7;ctx.fillStyle=['#ffdf69','#ff7185','#e9f7ff'][i%3];ctx.beginPath();ctx.arc(sx,sy,2.5,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.arc(w-sx,sy,2.5,0,Math.PI*2);ctx.fill()}
+ }
+ // perspective road with gentle animated bend
+ let horizon=h*.43,bottom=h*1.1,center=(z)=>w*.5+roadCurve*(z*z);
+ poly(ctx,[[center(0)-w*.04,horizon],[center(0)+w*.04,horizon],[center(1)+w*.48,bottom],[center(1)-w*.48,bottom]],'#39445c');
+ // shoulder strips
+ poly(ctx,[[center(0)-w*.052,horizon],[center(0)-w*.04,horizon],[center(1)-w*.48,bottom],[center(1)-w*.54,bottom]],'#f5f0df');
+ poly(ctx,[[center(0)+w*.04,horizon],[center(0)+w*.052,horizon],[center(1)+w*.54,bottom],[center(1)+w*.48,bottom]],'#f5f0df');
+ // red-white roadside kerbs, flowing towards camera
+ for(let side of [-1,1])for(let i=0;i<14;i++){
+   let z=((i/14+roadPhase*.9)%1),y=horizon+z*z*(bottom-horizon),cx=center(z),x=cx+side*(w*(.055+z*.49)),sz=2+z*8;
+   rounded(ctx,x-sz,y-sz*.4,sz*2,sz,2,i%2?'#fff':'#ef5b62');
+ }
+ // moving dashed center line
+ for(let i=0;i<13;i++){let z=((i/13+roadPhase)%1),y=horizon+z*z*(bottom-horizon),cx=center(z),half=w*(.04+z*.46),th=2+z*7;ctx.fillStyle='#fff4c7';ctx.fillRect(cx-th/2,y,th,Math.max(2,z*17))}
+ // finish arch in distance
+ ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(center(0)-w*.045,h*.4);ctx.lineTo(center(0)-w*.045,h*.34);ctx.lineTo(center(0)+w*.045,h*.34);ctx.lineTo(center(0)+w*.045,h*.4);ctx.stroke();
+ ctx.font='bold 10px system-ui';ctx.textAlign='center';ctx.fillStyle='#17345b';ctx.fillText('🏁 FINISH',center(0),h*.325);
+ // Checkpoint progress follows the active player's correct-answer race distance.
+ const activePlayer=players[turn],checkpoint=Math.min(5,Math.floor((activePlayer?.correct||0)/10)+1);
+ $('checkpointHud').textContent='🏁 CHECKPOINT '+checkpoint+'/5';
+ // checkpoint arch appears at a distance and grows towards player
+ let gateZ=.16,gy=horizon+gateZ*gateZ*(bottom-horizon),gx=center(gateZ),gw=w*(.05+gateZ*.43);
+ ctx.strokeStyle='#ffe36a';ctx.lineWidth=3+gateZ*4;ctx.beginPath();ctx.moveTo(gx-gw,gy+18);ctx.lineTo(gx-gw,gy-24);ctx.lineTo(gx+gw,gy-24);ctx.lineTo(gx+gw,gy+18);ctx.stroke();
+ ctx.fillStyle='#17345b';ctx.font='bold 9px system-ui';ctx.textAlign='center';ctx.fillText('CHECKPOINT '+checkpoint,gx,gy-29);
+ // opponents ahead, with individual kart body and wheel animation
+ let n=players.length||3;
+ // Draw racers ordered by their actual answer-earned track position:
+ // correct answers move forward; wrong answers push the kart backwards.
+ const cameraProgress=Math.max(0,Math.min(100,activePlayer?.pos||0));
+ const finishZoom=Math.max(0,cameraProgress-78)*.003;
+ const actionZoom=(kartAction==='boost'?.035:0)+(kartAction==='jump'?.018:0);
+ const cameraZoom=Math.min(1.12,1+finishZoom+actionZoom);
+ players.forEach((p,i)=>{
+   const active=i===turn;
+   const progress=Math.max(0,Math.min(100,p.pos||0));
+   // Four fixed lanes keep each kart and its name visually separated.
+   const depth=.22+(progress/100)*.58;
+   const laneSlots=[-.84,-.28,.28,.84];
+   const lane=laneSlots[i]??0;
+   const roadHalf=w*(.055+depth*.47);
+   let x=center(depth)+lane*roadHalf;
+   let y=h*(.88-(progress/100)*.30)+(i-(n-1)/2)*Math.min(3,h*.006);
+   let size=(.63+progress/100*.18)*Math.min(w/440,1.02);
+   if(active){const zoom=cameraZoom; x=w*.5+(x-w*.5)*zoom; y=h*.5+(y-h*.5)*zoom; size*=zoom;}
+   if(active&&kartAction==='jump')y-=Math.abs(Math.sin(ts/95))*18;
+   const colors=['#e94743','#247fdb','#f2b52e','#8b55d9'];
+   const kartLean=active?(steerAngle*.28+(kartAction==='drift'?-0.105:0)):steerAngle*.08;
+   drawKart(ctx,x,y,size,colors[i%4],chars[p.char]?.[0]||'🏎️',active,ts,kartLean);
+   // Animated tyre smoke and short skid trails during a drift; purely visual.
+   if(active&&kartAction==='drift'){
+     ctx.save();ctx.globalAlpha=.52;
+     for(let puff=0;puff<10;puff++){
+       const phase=(ts/34+puff*17)%42,side=puff%2?-1:1;
+       const sx=x+side*(25+phase*.55)*size,sy=y+(5+(puff%3)*5+phase*.38)*size;
+       const radius=(3+(phase/42)*10)*size;
+       const smoke=ctx.createRadialGradient(sx,sy,1,sx,sy,radius);
+       smoke.addColorStop(0,'rgba(238,245,250,.48)');smoke.addColorStop(1,'rgba(185,199,214,0)');
+       ctx.fillStyle=smoke;ctx.beginPath();ctx.arc(sx,sy,radius,0,Math.PI*2);ctx.fill();
+     }
+     ctx.globalAlpha=.62;ctx.strokeStyle='#18202d';ctx.lineWidth=2.4*size;
+     ctx.beginPath();ctx.moveTo(x-31*size,y+15*size);ctx.lineTo(x-42*size,y+34*size);
+     ctx.moveTo(x+31*size,y+15*size);ctx.lineTo(x+42*size,y+34*size);ctx.stroke();ctx.restore();
+   }
+   // Individual high-contrast name plate, anchored above its own kart.
+   const label=`${p.name}  |  ${p.correct}/50`;
+   ctx.save();ctx.font='900 10px system-ui';ctx.textAlign='center';
+   const tw=Math.min(w*.27,Math.max(72,ctx.measureText(label).width+16));
+   const lx=x-tw/2,ly=y-69*size;
+   rounded(ctx,lx,ly,tw,19,7,active?'#102b4fee':'#14233ddd');
+   ctx.strokeStyle=active?'#ffe77a':'#ffffff99';ctx.lineWidth=active?2:1;ctx.strokeRect(lx+.5,ly+.5,tw-1,18);
+   ctx.fillStyle='#fff';ctx.fillText(label,x,ly+13,tw-8);ctx.restore();
+ });
+ // Version 14.0: lightweight weather / atmosphere effects by world.
+ // Drawn after the racers so particles remain visible, but never cover the quiz UI.
+ if(world==='ice'){
+   for(let i=0;i<34;i++){
+     const sx=(i*71.3+Math.sin(ts/900+i)*18)%w;
+     const sy=(i*43.7+ts*(.025+(i%4)*.009))%(h*.78);
+     ctx.fillStyle=`rgba(255,255,255,${.42+(i%4)*.12})`;
+     ctx.beginPath();ctx.arc(sx,sy,1.2+(i%3)*.65,0,Math.PI*2);ctx.fill();
+   }
+ } else if(world==='forest'){
+   for(let i=0;i<18;i++){
+     const sx=(i*97.1+ts*(.008+(i%3)*.002))%w;
+     const sy=(i*61.7+Math.sin(ts/700+i)*12)%(h*.62);
+     ctx.fillStyle=`rgba(255,239,150,${.18+(i%4)*.08})`;
+     ctx.beginPath();ctx.arc(sx,sy,1.5+(i%3),0,Math.PI*2);ctx.fill();
+   }
+ } else if(world==='city'){
+   for(let i=0;i<12;i++){
+     const sx=(i*113+ts*(.025+(i%3)*.006))%w;
+     const sy=(i*57+ts*.018)%(h*.55);
+     ctx.strokeStyle=`rgba(255,239,170,${.16+(i%3)*.08})`;ctx.lineWidth=1.5;
+     ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx-5,sy+12);ctx.stroke();
+   }
+ }
+ // Subtle finish-line checker banner becomes more prominent in the final sprint.
+ if(cameraProgress>82){
+   const alpha=Math.min(.85,(cameraProgress-82)/18);
+   ctx.save();ctx.globalAlpha=alpha;ctx.fillStyle='#fff';
+   const cell=Math.max(6,Math.min(13,w*.018));
+   for(let row=0;row<2;row++)for(let col=0;col<12;col++){
+     if((row+col)%2===0)ctx.fillRect(w*.5-6*cell+col*cell,h*.12+row*cell,cell,cell);
+   }
+   ctx.restore();
+ }
+ // drift dust and jump shadow / crash shake
+ if(kartAction==='drift'||kartAction==='crash'){
+   for(let i=0;i<7;i++){let px=w*.5+(i-3)*13+Math.sin(ts/65+i)*6,py=h*.84+(i%3)*5;ctx.fillStyle=`rgba(238,245,255,${.16+(i%3)*.1})`;ctx.beginPath();ctx.arc(px,py,4+(i%3)*3,0,Math.PI*2);ctx.fill()}
+ }
+ const speed=paused?0:kartAction==='boost'?185:kartAction==='jump'?145:kartAction==='drift'?72:Math.round(92+Math.sin(ts/240)*12);
+ $('sceneSpeed').textContent='⚡ '+speed+' KM/J';
+ sceneRAF=requestAnimationFrame(drawScene)
+}
+function startScene(){cancelAnimationFrame(sceneRAF);sceneRAF=0;sceneResize();sceneLast=0;sceneRAF=requestAnimationFrame(drawScene)}
+
+
+let store=JSON.parse(localStorage.getItem('ksr3')||'{"coins":0,"total":0,"badges":[],"records":[]}');
+store.daily=store.daily||{date:new Date().toLocaleDateString('en-CA'),correct:0,rewarded:false};
+if(store.daily.date!==new Date().toLocaleDateString('en-CA'))store.daily={date:new Date().toLocaleDateString('en-CA'),correct:0,rewarded:false};
+function persist(){localStorage.setItem('ksr3',JSON.stringify(store));$('coinTop').textContent='🪙 '+store.coins}
+function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('on'));$(id).classList.add('on');if(id==='setup')makePlayers();if(id==='subjects')drawSubjects();if(id==='worlds')drawWorlds();if(id==='garage')drawGarage();if(id==='achievements')drawBadges();if(id==='records')drawRecords();if(id==='missions')drawMission();if(id==='race')startScene();else{cancelAnimationFrame(sceneRAF);sceneRAF=0}}
+function makePlayers(){let n=+$('count').value;$('playerSetup').innerHTML='';for(let i=0;i<n;i++)$('playerSetup').insertAdjacentHTML('beforeend',`<div class="player"><div class="bigemoji">${chars[i][0]}</div><div class="field"><label>NAMA PEMAIN ${i+1}</label><input id="name${i}" value="Pemain ${i+1}" maxlength="14"></div><div class="field"><label>WATAK</label><select id="char${i}">${chars.map((c,j)=>`<option value="${j}" ${i===j?'selected':''}>${c[0]} ${c[1]}</option>`).join('')}</select></div></div>`)}
+function drawSubjects(){$('subjectCards').innerHTML=`<div class="card ${subject==='all'?'selected':''}" onclick="subject='all';drawSubjects()"><div class="bigemoji">🌈</div><b>Semua subjek</b></div>`+subjects.map(s=>`<div class="card ${subject===s[0]?'selected':''}" onclick="subject='${s[0]}';drawSubjects()"><div class="bigemoji">${s[1].split(' ')[0]}</div><b>${s[1]}</b></div>`).join('')}
+function drawWorlds(){$('worldCards').innerHTML=worlds.map(w=>`<div class="card ${world===w[0]?'selected':''}" onclick="world='${w[0]}';drawWorlds()"><div class="bigemoji">${w[1]}</div><b>${w[2]}</b>${world===w[0]?'<p class="pill">Dipilih</p>':''}</div>`).join('')}
+function drawGarage(){$('garageCards').innerHTML=chars.map(c=>`<div class="card"><div class="bigemoji">${c[0]}</div><b>${c[1]}</b></div>`).join('')}
+function badgeDefs(){return [['🌱','Permulaan','Jawab 1 soalan',store.total>=1],['⭐','Bintang Bijak','Jawab 10 soalan',store.total>=10],['🏅','Juara Ilmu','Jawab 50 soalan',store.total>=50],['👑','Legenda Pintar','Jawab 100 soalan',store.total>=100],['💰','Pengumpul Syiling','Kumpul 100 syiling',store.coins>=100]]}
+function drawBadges(){$('badges').innerHTML=badgeDefs().map(b=>`<div class="badge ${b[3]?'':'locked'}"><div class="bigemoji">${b[0]}</div><b>${b[1]}</b><p class="muted">${b[2]}</p><span class="pill">${b[3]?'Dibuka':'Belum dibuka'}</span></div>`).join('')}
+function drawRecords(){$('recordRows').innerHTML=store.records.length?store.records.map((r,i)=>`<div class="player"><b>${i+1}. 🏆 ${esc(r.winner)}</b><p class="muted">${esc(r.date)}</p>${esc(r.score)}</div>`).join(''):'<p class="muted">Belum ada rekod permainan.</p>'}
+function clearRecords(){if(confirm('Padam semua rekod?')){store.records=[];persist();drawRecords()}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function add(arr,s,l,q,o,a,e){arr.push({s,l,q,o,a,e})}
+function bank(){let a=[];let sets={
+math:[[0,'1 + 1 = ?',['1','2','3','4'],'2','1 tambah 1 ialah 2.'],[0,'2 + 2 = ?',['3','4','5','6'],'4','2 tambah 2 ialah 4.'],[0,'5 - 2 = ?',['2','3','4','5'],'3','5 tolak 2 ialah 3.'],[0,'Nombor selepas 8 ialah…',['7','8','9','10'],'9','Selepas 8 ialah 9.'],[1,'7 + 5 = ?',['10','11','12','13'],'12','7 tambah 5 ialah 12.'],[1,'15 - 6 = ?',['8','9','10','11'],'9','15 tolak 6 ialah 9.'],[1,'3 × 4 = ?',['7','10','12','14'],'12','3 darab 4 ialah 12.'],[1,'Separuh daripada 20 ialah…',['5','10','15','20'],'10','20 bahagi 2 ialah 10.'],[2,'12 × 8 = ?',['86','92','96','108'],'96','12 darab 8 ialah 96.'],[2,'144 ÷ 12 = ?',['10','11','12','14'],'12','144 bahagi 12 ialah 12.'],[2,'25% daripada 80 ialah…',['10','15','20','25'],'20','Satu perempat daripada 80 ialah 20.']],
+bm:[[0,'Huruf pertama abjad ialah…',['A','B','C','D'],'A','Abjad bermula dengan A.'],[0,'Lawan kata besar ialah…',['Tinggi','Kecil','Panjang','Luas'],'Kecil','Besar berlawanan dengan kecil.'],[0,'Yang manakah haiwan?',['Meja','Kucing','Buku','Kasut'],'Kucing','Kucing ialah haiwan.'],[0,'Ejaan yang betul ialah…',['Sekola','Sekolah','Skolah','Sekolahh'],'Sekolah','Ejaan yang betul ialah sekolah.'],[1,'Pilih kata kerja.',['Meja','Berlari','Merah','Tinggi'],'Berlari','Berlari ialah perbuatan.'],[1,'Antonim rajin ialah…',['Tekun','Malas','Bijak','Pantas'],'Malas','Rajin berlawanan dengan malas.'],[1,'Penjodoh bilangan pisang ialah…',['Sikat','Batang','Keping','Utas'],'Sikat','Pisang biasanya dihitung sesikat.'],[2,'Sinonim gembira ialah…',['Sedih','Riang','Marah','Takut'],'Riang','Gembira membawa maksud riang.'],[2,'Kata adjektif dalam “rumah besar” ialah…',['Rumah','Besar','Dalam','Itu'],'Besar','Besar menerangkan sifat rumah.'],[2,'“Bagai aur dengan tebing” bermaksud…',['Bergaduh','Bekerjasama','Bersendirian','Berlumba'],'Bekerjasama','Peribahasa ini bermaksud saling membantu.']],
+islam:[[0,'Umat Islam menyembah…',['Matahari','Allah','Bulan','Pokok'],'Allah','Umat Islam menyembah Allah.'],[0,'Kitab suci umat Islam ialah…',['Al-Quran','Kamus','Majalah','Novel'],'Al-Quran','Al-Quran ialah kitab suci umat Islam.'],[0,'Solat fardu sehari semalam ada…',['3','4','5','6'],'5','Solat fardu ada lima waktu.'],[0,'Sebelum makan kita membaca…',['Doa','Pantun','Lagu','Ikrar'],'Doa','Kita digalakkan membaca doa.'],[1,'Nabi terakhir ialah Nabi…',['Ibrahim','Musa','Muhammad','Nuh'],'Muhammad','Nabi Muhammad SAW ialah rasul terakhir.'],[1,'Puasa wajib pada bulan…',['Muharam','Ramadan','Syawal','Rejab'],'Ramadan','Puasa wajib dilakukan pada Ramadan.'],[1,'Arah kiblat ialah…',['Kaabah','Gunung','Madinah','Timur'],'Kaabah','Umat Islam menghadap Kaabah ketika solat.'],[2,'Maksud amanah ialah…',['Boleh dipercayai','Suka berbohong','Membazir','Suka marah'],'Boleh dipercayai','Amanah bermaksud menjaga kepercayaan.'],[2,'Solat Subuh mempunyai…',['2 rakaat','3 rakaat','4 rakaat','5 rakaat'],'2 rakaat','Solat Subuh dua rakaat.'],[2,'Maksud ikhlas ialah…',['Melakukan kerana Allah','Menunjuk-nunjuk','Memaksa orang','Mengharap pujian'],'Melakukan kerana Allah','Ikhlas ialah melakukan amalan kerana Allah.']],
+iq:[[0,'Sambung corak 🔴 🔵 🔴 🔵 …',['🔴','🔵','🟢','🟡'],'🔴','Corak merah dan biru berselang-seli.'],[0,'Haiwan yang boleh terbang ialah…',['Ikan','Burung','Kucing','Kuda'],'Burung','Burung mempunyai sayap.'],[0,'Yang paling besar ialah…',['Semut','Kucing','Gajah','Arnab'],'Gajah','Gajah paling besar.'],[0,'Jika hari ini Isnin, esok ialah…',['Ahad','Selasa','Rabu','Jumaat'],'Selasa','Hari selepas Isnin ialah Selasa.'],[1,'Sambung nombor 2, 4, 6, 8, …',['9','10','11','12'],'10','Corak bertambah dua.'],[1,'Tiga ekor ayam ada berapa kaki?',['4','5','6','8'],'6','3 × 2 kaki = 6.'],[1,'Yang tidak sama kumpulan ialah…',['Epal','Pisang','Lobak','Oren'],'Lobak','Lobak ialah sayur, yang lain buah.'],[2,'Sambung 1, 1, 2, 3, 5, …',['6','7','8','10'],'8','Jumlah dua nombor sebelumnya.'],[2,'Satu dozen bersamaan…',['10','11','12','20'],'12','Satu dozen ialah 12 unit.'],[2,'Jika semua A ialah B dan semua B ialah C, A ialah…',['C','D','Bukan C','Tidak pasti'],'C','A juga termasuk dalam kumpulan C.']]
+};
+Object.entries(sets).forEach(([s,rows])=>rows.forEach(r=>add(a,s,...r)));
+for(let x=2;x<=12;x++)for(let y=2;y<=12;y++){let n=x+y;add(a,'math',1,`${x} + ${y} = ?`,[String(n-1),String(n),String(n+1),String(n+2)],String(n),`${x} tambah ${y} ialah ${n}.`)}
+return a}
+const BANK=bank();function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){let j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+function newDeck(level,sub='all'){return shuffle(BANK.filter(x=>x.l<=level&&(sub==='all'||x.s===sub)))}
+function drawMission(){let d=store.daily||{correct:0,rewarded:false};let done=d.correct>=5;let pct=Math.min(100,d.correct/5*100);$('missionCard').innerHTML=`<div class="mission-box"><div class="row between"><b>⭐ Misi: 5 Jawapan Betul</b><span>🪙 +15</span></div><p>Jawab lima soalan dengan betul dalam mana-mana mod hari ini.</p><div class="mission-progress"><span style="width:${pct}%"></span></div><b>${Math.min(5,d.correct)} / 5 jawapan betul</b><p>${d.rewarded?'🎉 Ganjaran sudah diterima hari ini!':done?'Tekan butang tuntut ganjaran.':'Teruskan bermain untuk melengkapkan misi.'}</p><button class="gold" ${done&&!d.rewarded?'':'disabled'} onclick="claimMission()">${d.rewarded?'Ganjaran dituntut':'Tuntut 15 syiling'}</button></div>`}
+function claimMission(){if(store.daily.correct<5||store.daily.rewarded)return;store.daily.rewarded=true;store.coins+=15;persist();drawMission();toast('🎁 Tahniah! 15 syiling diterima!');sound(880)}
+function burst(el,items=['✨','⭐','💨']){if(!el)return;let r=el.getBoundingClientRect();for(let i=0;i<9;i++){let n=document.createElement('span');n.className='fx-particle';n.textContent=items[i%items.length];n.style.left=(r.left+r.width/2)+'px';n.style.top=(r.top+r.height/2)+'px';n.style.setProperty('--dx',(Math.random()*150-75)+'px');n.style.setProperty('--dy',(Math.random()*-130-20)+'px');document.body.appendChild(n);setTimeout(()=>n.remove(),950)}}
+function updateDaily(){let today=new Date().toLocaleDateString('en-CA');if(store.daily.date!==today)store.daily={date:today,correct:0,rewarded:false};store.daily.correct++;if($('missionCard'))drawMission()}
+function raceStart(){stopTimer();clearCountdown();paused=false;players=[];for(let i=0;i<+$('count').value;i++)players.push({name:$('name'+i).value.trim()||`Pemain ${i+1}`,char:+$('char'+i).value,correct:0,coins:0,streak:0,pos:0});practice=false;turn=0;deck=newDeck(+$('age').value);qi=0;left=180;show('race');$('timer').style.display=$('mode').value==='timed'?'inline-block':'none';$('worldTag').textContent=worlds.find(x=>x[0]===world)[1]+' '+worlds.find(x=>x[0]===world)[2];drawLanes();beginLightsOut(()=>{next();if($('mode').value==='timed')startTimer()})}
+function practiceStart(){stopTimer();clearCountdown();paused=false;practice=true;players=[{name:'Latihan',char:0,correct:0,coins:0,streak:0,pos:0}];turn=0;deck=newDeck(2,subject);qi=0;show('race');$('timer').style.display='none';$('worldTag').textContent='📚 MOD LATIHAN';drawLanes();beginLightsOut(()=>next())}
+function clearCountdown(){countdownToken++;if(countdownTimer){clearTimeout(countdownTimer);countdownTimer=null}let el=$('raceCountdown');if(el)el.classList.remove('show')}
+function startTone(freq,duration=.12,volume=.045,type='square'){if(!$('sound')||!$('sound').checked)return;try{let C=window.AudioContext||window.webkitAudioContext;if(!C)return;let c=new C(),o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(freq,c.currentTime);g.gain.setValueAtTime(volume,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+duration);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+duration);o.onended=()=>c.close()}catch(e){}}
+function beginLightsOut(done){clearCountdown();let token=countdownToken,el=$('raceCountdown'),num=$('countdownNumber'),cap=$('countdownCaption'),lights=el.querySelector('.countdown-lights');let step=0;el.classList.add('show');el.classList.remove('go');function tickCount(){if(token!==countdownToken||!$('race').classList.contains('on'))return;if(step<3){num.textContent=String(3-step);cap.textContent='BERSIAP UNTUK BERLUMBA!';lights.classList.toggle('lit',true);startTone(440+step*90,.16,.055);step++;countdownTimer=setTimeout(tickCount,850)}else{el.classList.add('go');num.textContent='🚦 GO!';cap.textContent='MULA! MULA! MULA!';lights.classList.remove('lit');startTone(880,.32,.07,'sawtooth');engineRev();countdownTimer=setTimeout(()=>{if(token!==countdownToken)return;el.classList.remove('show');countdownTimer=null;done()},700)}}tickCount()}
+function engineRev(){if(!$('sound')||!$('sound').checked)return;try{let C=window.AudioContext||window.webkitAudioContext,c=new C(),o=c.createOscillator(),g=c.createGain();o.type='sawtooth';o.frequency.setValueAtTime(75,c.currentTime);o.frequency.exponentialRampToValueAtTime(260,c.currentTime+.42);o.frequency.exponentialRampToValueAtTime(110,c.currentTime+.9);g.gain.setValueAtTime(.001,c.currentTime);g.gain.linearRampToValueAtTime(.055,c.currentTime+.12);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+1);o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+1);o.onended=()=>c.close()}catch(e){}}
+function drawLanes(){$('lanes').innerHTML=players.map((p,i)=>`<div class="lane"><label>${esc(p.name)} • ${p.correct}/50</label><div class="runner" id="runner${i}" style="left:${p.pos}%">${chars[p.char][0]}</div></div>`).join('')}
+function next(){if(qi>=deck.length){deck=newDeck(practice?2:+$('age').value,practice?subject:'all');qi=0}q=deck[qi++];busy=false;$('turnTitle').textContent=practice?'Mod Latihan':'Giliran: '+players[turn].name;$('subjectTag').textContent=subjects.find(s=>s[0]===q.s)[1];$('question').textContent=q.q;$('feedback').textContent='';$('feedback').className='center';$('progress').style.width=(players[turn].correct/50*100)+'%';$('answers').innerHTML=shuffle(q.o).map(v=>`<button type="button" class="answer" data-answer="${esc(v)}">${esc(v)}</button>`).join('');stats()}
+function handleAnswer(btn,v){if(busy)return;busy=true;let p=players[turn],ok=v===q.a;document.querySelectorAll('.answer').forEach(b=>{b.disabled=true;if(b.textContent===q.a)b.classList.add('good')});if(ok){kartAction=(p.streak+1)%3===0?'boost':((p.correct+1)%5===0?'jump':'cruise');kartActionUntil=performance.now()+(kartAction==='boost'?1500:kartAction==='jump'?950:500);p.correct++;p.coins+=2;p.streak++;p.pos=Math.min(94,(p.pos||0)+4.5);store.coins+=2;store.total++;updateDaily();$('feedback').textContent='🌟 BETUL! '+q.e;$('feedback').className='center fx-good';if(p.streak%3===0){p.coins+=3;store.coins+=3;$('feedback').textContent+=' ⚡ KOMBO '+p.streak+'! Bonus 3 syiling.'}sound(p.streak%3===0?900:650);setTimeout(()=>{let r=$('runner'+turn);if(r){r.classList.add('boost');burst(r,['⚡','✨','💨']);setTimeout(()=>r.classList.remove('boost'),1000)}},20)}else{kartAction='drift';kartActionUntil=performance.now()+1250;btn.classList.add('bad');p.streak=0;p.pos=Math.max(0,(p.pos||0)-5);$('feedback').className='center fx-bad';$('feedback').innerHTML='💡 Jawapan: <b>'+esc(q.a)+'</b><br>'+esc(q.e);setTimeout(()=>{let r=$('runner'+turn);if(r){r.classList.add('bump');setTimeout(()=>r.classList.remove('bump'),800)}},20);sound(170)}persist();stats();drawLanes();unlock();setTimeout(()=>{if(!$('race').classList.contains('on'))return;if(practice){next();return}if(p.correct>=50){finish(p.name,'Berjaya mencapai 50 jawapan betul!');return}if($('mode').value==='timed'&&left<=0){timedEnd();return}turn=(turn+1)%players.length;next()},ok?1100:1700)}
+function updateRaceDashboard(){
+ const box=$('raceStandings');if(!box)return;
+ const sorted=players.map((p,i)=>({...p,index:i})).sort((a,b)=>(b.pos||0)-(a.pos||0)||b.correct-a.correct);
+ box.innerHTML=sorted.map((p,rank)=>`<div class="standing-row ${p.index===turn?'active':''}"><div class="standing-rank">${['🥇','🥈','🥉','4️⃣'][rank]||rank+1}</div><div class="standing-car">${chars[p.char][0]}</div><div class="standing-info"><div class="standing-name">${esc(p.name)}${p.index===turn?' • GILIRAN':''}</div><div class="standing-meta">${p.correct} / 50 jawapan betul</div><div class="standing-bar"><span style="width:${Math.min(100,p.correct/50*100)}%"></span></div></div></div>`).join('');
+ const leader=sorted[0];$('raceLap').textContent=practice?'MOD LATIHAN':`Pendahulu: ${leader?esc(leader.name):'-'} • Sasaran 50`;
+}
+function stats(){let p=players[turn];$('correctStat').textContent=p.correct;$('coinStat').textContent=p.coins;$('streakStat').textContent=p.streak;$('boostMeter').textContent='⚡ Turbo: '+(p.streak%3)+'/3';$('progress').style.width=(p.correct/50*100)+'%';updateRaceDashboard()}
+function sound(f){if(!$('sound').checked)return;try{let c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=f;o.connect(g);g.connect(c.destination);g.gain.value=.05;o.start();o.stop(c.currentTime+.12)}catch(e){}}
+function startTimer(){stopTimer();tick=setInterval(()=>{if(paused)return;left--;$('timer').textContent='⏱️ '+String(left/60|0).padStart(2,'0')+':'+String(left%60).padStart(2,'0');if(left<=0){stopTimer();timedEnd()}},1000)}
+function stopTimer(){if(tick)clearInterval(tick);tick=null}
+function pause(){if(practice)return;paused=!paused;toast(paused?'Permainan dijeda. Tekan sekali lagi untuk sambung.':'Permainan disambung.')}
+function quit(){if(confirm('Keluar daripada permainan?')){stopTimer();clearCountdown();show('home')}}
+function finish(name,msg){stopTimer();clearCountdown();players.forEach(p=>{if(p.name===name)p.pos=100});drawLanes();burst($('race'),['🏆','🎉','⭐','🎊']);startTone(660,.18,.06);setTimeout(()=>startTone(880,.22,.06),180);setTimeout(()=>startTone(1100,.35,.06),390);result(name,msg)}
+function timedEnd(){clearCountdown();let p=[...players].sort((a,b)=>b.correct-a.correct)[0];burst($('race'),['🎉','🏁','⭐']);result(p.name,'Masa tamat! Jawapan betul terbanyak: '+p.correct+'.')}
+function result(name,msg){let sorted=[...players].sort((a,b)=>b.correct-a.correct);store.records.unshift({winner:name,date:new Date().toLocaleString('ms-MY'),score:sorted.map(p=>p.name+': '+p.correct).join(' • ')});store.records=store.records.slice(0,25);persist();$('winner').textContent='TAHNIAH, '+name.toUpperCase()+'!';$('resultText').textContent=msg;$('scores').innerHTML='<div class="podium">'+sorted.slice(0,3).map((p,i)=>`<div>${['🥇','🥈','🥉'][i]}<br>${esc(p.name)}<br><small>${p.correct} betul</small></div>`).join('')+'</div>'+sorted.map((p,i)=>`<div class="row between" style="padding:9px;border-bottom:1px solid #ddd"><b>${i+1}. ${chars[p.char][0]} ${esc(p.name)}</b><span>${p.correct} betul • 🪙 ${p.coins}</span></div>`).join('');show('result')}
+function unlock(){let ds=[['🌱','Permulaan',store.total>=1],['⭐','Bintang Bijak',store.total>=10],['🏅','Juara Ilmu',store.total>=50],['👑','Legenda Pintar',store.total>=100],['💰','Pengumpul Syiling',store.coins>=100]];ds.forEach((d,i)=>{if(d[2]&&!store.badges.includes(i)){store.badges.push(i);toast('Lencana dibuka: '+d[1]+' '+d[0])}});persist()}
+window.addEventListener('resize',()=>{if($('race').classList.contains('on'))sceneResize()});
+let toastTimeout;function toast(s){$('toast').textContent=s;$('toast').style.display='block';clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('toast').style.display='none',2200)}
+$('answers').addEventListener('click',function(ev){
+  const btn=ev.target.closest('button.answer');
+  if(!btn || btn.disabled) return;
+  handleAnswer(btn,btn.dataset.answer);
+});
+makePlayers();persist();
+window.addEventListener('error',function(ev){
+  const box=$('feedback');
+  if(box && $('race').classList.contains('on')){
+    box.textContent='Ada gangguan kecil. Sila tekan Menu dan mula semula. ('+(ev.message||'ralat')+')';
+  }
+});
+</script></body></html>
